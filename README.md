@@ -22,7 +22,7 @@ npx create-next-app
 
 Alors c’est terriblement simple 
 
-![image.png](attachment:205a9bd1-aeea-4d02-8570-d08d44a25d60:image.png)
+![image.png](image.png)
 
 Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller su `users/new` et ainsi de suite… C’est le routing dans `next` !
 
