@@ -1,13 +1,14 @@
 import Link from "next/link";
 import ProductCard from "./components/ProductCard";
+import NavBar from "./components/NavBar";
 
 
 export default function Home() {
     return (
         <main>
-            <h1>HELLO</h1>
-            <Link href="/users">Optimized Users</Link>
+            <NavBar />
+            <Link href="/users">Users</Link>
             <ProductCard />
         </main>
     );
-}
+};
