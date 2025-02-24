@@ -146,3 +146,139 @@ Pour palier a ça il faut ajouté un argument au `fetch`
 ```
 
 Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` !
+
+# GERER LES DB AVEC `PRISMA`
+
+Pour installer `prisma` il faut 
+
+```bash
+npm install prisma
+npx prisma init
+```
+
+Un dossier `prisma` va être crée et dedans il y’aura `schema.prisma` également il y’aura un `.env` 
+
+il faut modifier le `.env` avec les information de notre data bases, ici on fait un `issue Tracker` voici ce que j’ai entré dedans en utilisant `mysql` 
+
+```bash
+DATABASE_URL="mysql://root:YourPassword$@localhost:3306/issue-tracker"
+```
+
+Dans le fichier `schema.prisma` il faut juste changer le `provider` de `dataressource` avec la db que l’on va utilisé ( par défaut c’est `postgresql` )
+
+```bash
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+```
+
+### MAINTENANT ON CRÉE LE SCHEMA D’UNE TABLE
+
+Dans `schema.prisma`
+
+```java
+model issue {
+  id Int @id @default(autoincrement())
+	title String @db.VarChar(255)
+	description String @db.Text
+	status Status @default(OPEN)
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+}
+
+enum Status {
+	OPEN
+	IN_PROGRESS
+	CLOSED
+}
+```
+
+Ici c’est +- comme si on le ferais dans une requête sql je te laisse check la [doc](https://www.prisma.io/docs) si tu a du mal avec ce qui est écrit ici 
+
+Je vais juste revenir sur le `enum` qui permet de dire que cette column ne peut avoir que les 3 valeurs que je lui ai donné.
+
+---
+
+On peut aussi formatter le code  pour qu’il sois plus lisible avec 
+
+```java
+npx prisma format
+```
+
+Résultat
+
+```java
+model issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+```
+
+### MAINTENANT QUE TOUT EST BON ON VA `migrate`
+
+Pour ce faire il faut 
+
+```java
+npx prisma migrate dev
+```
+
+Cela va crée a dossier `migrations`  qui va contenir un fichier sql avec notre table ce qui va permettre d’être bien synchronisé avec la data base vu que notre code va savoir quelle donnée elle attend !
+
+### APRÈS ÇA ON VA CRÉE UNE REQUÊTE
+
+Pour ça dans `app` on crée un dossier `api/issues` ça va contenir le fichier `route.ts` qui contient notre requête 
+
+### ALORS COMMENT ON FAIT ?
+
+On commence par les imports que l’on va avoir besoin
+
+```tsx
+npm install zod
+```
+
+```tsx
+import { NextRequest, NextResponse } from "next/server";
+// Zod is a TypeScript-first schema declaration and validation library.
+import { z } from 'zod';
+// for db interaction
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+```
+
+Après l’on va mettre des règle sur le format de réponse que l’on attend avec `zod`
+
+```tsx
+// format de rule for the body request
+const createIssueSchema = z.object({
+    title: z.string().min(1).max(255),
+    description: z.string().min(1)
+});
+```
+
+Et puis on construit notre requête
+
+```tsx
+// create a post function
+export async function POST(request: NextRequest) {
+    // get the body
+    const body = await request.json();
+    // verify if the body are good
+    const validation = createIssueSchema.safeParse(body);
+    if (!validation.success) {
+        return NextResponse.json(validation.error.errors, { status: 400 });
+    }
+    // send the information to the database prisma.table.action({data: {}})
+    const newIssue = await prisma.issue.create({
+        data: { title: body.title, description: body.description },
+    });
+    // send the response and status
+    return NextResponse.json(newIssue, { status: 201 });
+}
+```
+
+Et voilà :)
