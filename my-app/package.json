@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.4.1",
     "@radix-ui/themes": "^3.2.0",
     "classnames": "^2.5.1",
     "next": "15.1.7",
