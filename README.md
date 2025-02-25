@@ -302,6 +302,7 @@ npm install @radix-ui/themes
 Ouvrez votre `layout.tsx` et importer `Theme`
 
 ```tsx
+import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 ```
 
