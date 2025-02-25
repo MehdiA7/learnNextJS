@@ -387,7 +387,7 @@ Maitenant vous pouvez utiliser la balise qui vous permettera d’avoir votre `é
 
 ![image.png](./readmeAssets/mdDemonstration.png)
 
-Pour plus de personalisation, [Lisez la doc !**](https://www.npmjs.com/package/react-simplemde-editor)
+Pour plus de personalisation, [Lisez la doc !](https://www.npmjs.com/package/react-simplemde-editor)
 
 # UTILISER `REACT HOOK FORM`
 
