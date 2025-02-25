@@ -145,7 +145,7 @@ Pour palier a ça il faut ajouté un argument au `fetch`
   const res = await fetch('https://jsonplaceholder.typicode.com/users', { cache: 'no-store' });
 ```
 
-Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` ! 
+Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` ! Ce qui peut être particulièrement utile quand on veut rendre des choses en temps réel.
 
 # GERER LES DB AVEC `PRISMA`
 
@@ -361,3 +361,30 @@ Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la prem
     <main className="p-5">{children}</main>
 </Theme>
 ```
+
+# AJOUTER UN `MARKDOWN EDITOR`
+
+Pour ça on va utiliser [**React SimpleMDE](**https://www.npmjs.com/package/react-simplemde-editor)
+
+/!\ oubliez pas de passer votre component en `'use client';` /!\
+
+```tsx
+npm install --save react-simplemde-editor easymde
+```
+
+Ensuite dans la page ou vous vouliez intégré le mdEditor
+
+```tsx
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+```
+
+Maitenant vous pouvez utiliser la balise qui vous permettera d’avoir votre `éditeur` !
+
+```tsx
+<SimpleMDE />
+```
+
+![image.png](./readmeAssets/mdDemonstration.png)
+
+Pour plus de personalisation, [Lisez la doc !**](**https://www.npmjs.com/package/react-simplemde-editor)
