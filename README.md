@@ -93,7 +93,7 @@ Et voilà on a les 3 font qui sont disponible en css avec `var(--font-space-mono
 
 Alors c’est terriblement simple 
 
-![routeStructure.png](attachment:205a9bd1-aeea-4d02-8570-d08d44a25d60:image.png)
+![./routeStructures.png](attachment:205a9bd1-aeea-4d02-8570-d08d44a25d60:image.png)
 
 Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller su `users/new` et ainsi de suite… C’est le routing dans `next` !
 
@@ -351,7 +351,7 @@ Retournon sur `layout.tsx` et faison une modif dans la balise `<Theme>`
 
 J’ai ajouté `<ThemePanel />` et cela va nous permettre de personaliser notre thème 
 
-![themePersonalisation.png](attachment:738b7371-d0aa-402e-93a6-9057ec32df3c:image.png)
+![./themePersonalisations.png](attachment:738b7371-d0aa-402e-93a6-9057ec32df3c:image.png)
 
 Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la première balise `Theme` et bien évidemment de retirer `<ThemePanel/>`
 
