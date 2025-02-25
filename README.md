@@ -93,7 +93,7 @@ Et voilà on a les 3 font qui sont disponible en css avec `var(--font-space-mono
 
 Alors c’est terriblement simple 
 
-![image.png](image.png)
+![routeStructure.png](attachment:205a9bd1-aeea-4d02-8570-d08d44a25d60:image.png)
 
 Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller su `users/new` et ainsi de suite… C’est le routing dans `next` !
 
@@ -145,7 +145,7 @@ Pour palier a ça il faut ajouté un argument au `fetch`
   const res = await fetch('https://jsonplaceholder.typicode.com/users', { cache: 'no-store' });
 ```
 
-Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` !
+Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` ! 
 
 # GERER LES DB AVEC `PRISMA`
 
@@ -173,7 +173,7 @@ datasource db {
 }
 ```
 
-### MAINTENANT ON CRÉE LE SCHEMA D’UNE TABLE
+## MAINTENANT ON CRÉE LE SCHEMA D’UNE TABLE
 
 Dans `schema.prisma`
 
@@ -219,7 +219,7 @@ model issue {
 }
 ```
 
-### MAINTENANT QUE TOUT EST BON ON VA `migrate`
+## MAINTENANT QUE TOUT EST BON ON VA `migrate`
 
 Pour ce faire il faut 
 
@@ -233,7 +233,7 @@ Cela va crée a dossier `migrations`  qui va contenir un fichier sql avec notre 
 
 Pour ça dans `app` on crée un dossier `api/issues` ça va contenir le fichier `route.ts` qui contient notre requête 
 
-### ALORS COMMENT ON FAIT ?
+## ALORS COMMENT ON FAIT ?
 
 On commence par les imports que l’on va avoir besoin
 
@@ -281,4 +281,83 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-Et voilà :)
+Et voilà :) 
+
+---
+
+# CONFIGURER `RADIX-UI`
+
+Pour commencer c’est quoi `radix-ui` ? 
+
+Radix UI est une bibliothèque de composants UI basés sur React, conçue pour être accessible, personnalisable et non-stylisée par défaut. Elle fournit des composants basiques et avancés comme des modals, des menus déroulants, des onglets, des popovers, etc., tout en respectant les bonnes pratiques d’accessibilité (ARIA).
+
+## COMMENT ON INSTALLE ÇA ?
+
+[Official Tutorial](https://www.radix-ui.com/themes/docs/overview/getting-started}
+
+```tsx
+npm install @radix-ui/themes
+```
+
+Ouvrez votre `layout.tsx` et importer `Theme`
+
+```tsx
+import { Theme } from "@radix-ui/themes";
+```
+
+Dans le `return` vous pourriez maintenant mettre la balise `<Theme>` dans votre `<body>`
+
+```tsx
+    return (
+        <html lang="en">
+            <body>
+                <Theme>
+                    <NavBar />
+                    <main>{children}</main>
+                </Theme>
+            </body>
+        </html>
+    );
+```
+
+Et maintenant vous pourriez utiliser les components de rudix directement dans votre code voici un exemple dans une `page.tsx` avec un `Button`
+
+```tsx
+import { Button } from "@radix-ui/themes";
+
+const IssuesPage = () => {
+    return (
+        <div>
+            <h1>Issues Page</h1>
+            <Button>Add Issues</Button>
+        </div>
+    );
+};
+```
+
+Hésitez pas a en apprendre plus sur [le site de radix](https://www.radix-ui.com/) et a selectionner ce que vous voulez importer dans la [doc officiel](https://www.radix-ui.com/themes/docs/components/button)
+
+## CE QUI FAIT LA FORCE DE `RADIX` C’EST LE `PANEL`
+
+Retournon sur `layout.tsx` et faison une modif dans la balise `<Theme>`
+
+```tsx
+<Theme>
+    <NavBar />
+    <main className="p-5">{children}</main>
+    <ThemePanel />
+</Theme>
+```
+
+J’ai ajouté `<ThemePanel />` et cela va nous permettre de personaliser notre thème 
+
+![themePersonalisation.png](attachment:738b7371-d0aa-402e-93a6-9057ec32df3c:image.png)
+
+Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la première balise `Theme` et bien évidemment de retirer `<ThemePanel/>`
+
+```tsx
+<Theme accentColor="green">
+    <NavBar />
+    <main className="p-5">{children}</main>
+</Theme>
+```
