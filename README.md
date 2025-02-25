@@ -293,7 +293,7 @@ Radix UI est une bibliothèque de composants UI basés sur React, conçue pour �
 
 ## COMMENT ON INSTALLE ÇA ?
 
-[Official Tutorial](https://www.radix-ui.com/themes/docs/overview/getting-started}
+[Official Tutorial](https://www.radix-ui.com/themes/docs/overview/getting-started)
 
 ```tsx
 npm install @radix-ui/themes
@@ -364,7 +364,7 @@ Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la prem
 
 # AJOUTER UN `MARKDOWN EDITOR`
 
-Pour ça on va utiliser [**React SimpleMDE](**https://www.npmjs.com/package/react-simplemde-editor)
+Pour ça on va utiliser [**React SimpleMDE](https://www.npmjs.com/package/react-simplemde-editor)
 
 /!\ oubliez pas de passer votre component en `'use client';` /!\
 
@@ -387,4 +387,83 @@ Maitenant vous pouvez utiliser la balise qui vous permettera d’avoir votre `é
 
 ![image.png](./readmeAssets/mdDemonstration.png)
 
-Pour plus de personalisation, [Lisez la doc !**](**https://www.npmjs.com/package/react-simplemde-editor)
+Pour plus de personalisation, [Lisez la doc !**](https://www.npmjs.com/package/react-simplemde-editor)
+
+# UTILISER `REACT HOOK FORM`
+
+[La doc](https://react-hook-form.com/get-started)
+
+Alors c’est très simple et a la fois compliqué…
+
+`react hook form` va simplifié l’envoi de requête vers la db en formant directement un objet via les formulaires. 
+
+voici un exemple simple 
+
+```tsx
+'use client';
+import { useForm } from "react-hook-form";
+
+type formInput = {
+    name: string;
+    country: string;
+};
+
+const FormComponent = () => {
+    const { register, handleSubmit } = useForm<formInput>();
+    return (
+        <form className="space-y-5" onSubmit={handleSubmit((data) => console.log(data))}>
+            <input type="text" placeholder="Your Name" {...register("name")} />
+            <input type="text" placeholder="Your Country" {...register("country")} />
+            <br />
+            <button>Submit</button>
+        </form>
+    );
+};
+// exemple du log { name: "Mehdi", country: "Belgique" }\
+export default FormComponent;
+```
+
+On crée donc register pour y stocker les valeurs que l’on veut `exporter sous forme d'objet` 
+
+Maintenant voici un exemple avec plus de complexité car l’on fait appel a un component externe
+
+```tsx
+"use client";
+import React from "react";
+import { Button, TextField } from "@radix-ui/themes";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+import { useForm, Controller } from "react-hook-form";
+
+type issueForm = {
+    title: string;
+    description: string;
+};
+
+const NewIssuePage = () => {
+    const { register, control, handleSubmit } = useForm<issueForm>();
+
+    return (
+        <form
+            className="max-w-xl space-y-3"
+            onSubmit={handleSubmit((data) => console.log(data))}
+        >
+            <TextField.Root
+                placeholder="title"
+                {...register("title")}
+            ></TextField.Root>
+            <Controller
+                name="description"  // Le nom du champ dans votre formulaire
+                control={control}   // L'objet control de useForm
+                render={({ field }) => ( // Une fonction qui reçoit les props à passer au composant
+                    <SimpleMDE placeholder="Description" {...field} />
+                )}
+            />
+            <Button>Submit New Issue</Button>
+        </form>
+    );
+};
+
+export default NewIssuePage;
+```
+
