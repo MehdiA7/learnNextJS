@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 // Radix ui theme
-import { Button, TextField, Callout } from "@radix-ui/themes";
+import { Button, TextField, Callout, Text } from "@radix-ui/themes";
 // Markdown editor
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -11,16 +11,19 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 // Router to change page after the post request
 import { useRouter } from "next/navigation";
+// Form error checker
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import createIssueSchema from "@/app/validationSchemas";
 
-type issueForm = {
-    title: string;
-    description: string;
-};
+type issueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
     const [error, setError] = useState("");
     const router = useRouter();
-    const { register, control, handleSubmit } = useForm<issueForm>();
+    const { register, control, handleSubmit, formState: {errors} } = useForm<issueForm>({
+        resolver: zodResolver(createIssueSchema)
+    });
 
     return (
         <div className="max-w-xl">
@@ -35,7 +38,7 @@ const NewIssuePage = () => {
                         router.push("/issues"); // redirect to issues page
                     } catch (error) {
                         setError(
-                            "We have problem with your title or description..."
+                            "We have problem..."
                         );
                     }
                 })}
@@ -44,6 +47,7 @@ const NewIssuePage = () => {
                     placeholder="title"
                     {...register("title")}
                 ></TextField.Root>
+                {errors.title && <Text color="red" as="p">{errors.title.message}</Text>}
                 <Controller
                     name="description"
                     control={control}
@@ -51,6 +55,7 @@ const NewIssuePage = () => {
                         <SimpleMDE placeholder="Description" {...field} />
                     )}
                 />
+                {errors.description && <Text color="red" as="p">{errors.description.message}</Text>}
                 <Button>Submit New Issue</Button>
             </form>
         </div>
