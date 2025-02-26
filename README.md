@@ -18,6 +18,8 @@ npx create-next-app
 
 ça va télécharger la dernière version de next ! On peut aussi faire tout le temps `enter` car les propositions par défaut sont bonne.
 
+
+
 # COMMENT IMPORTER UNE FONT ?
 
 Avec `next` c’est pas aussi simple pourquoi ?
@@ -89,6 +91,8 @@ Et voilà on a les 3 font qui sont disponible en css avec `var(--font-space-mono
     - `["latin"]` signifie que seuls les caractères latins seront chargés
     - Cela améliore les performances en réduisant la taille du fichier de police à télécharger
 
+
+
 # ROUTING `/`
 
 Alors c’est terriblement simple 
@@ -133,6 +137,8 @@ const ProductCard = () => {
 export default ProductCard;
 ```
 
+
+
 # IL SE PASSE QUOI QUAND ON `FETCH` ?
 
 ( Tout ce qui est la ne se vois pas en développement les changements apparaissent uniquement au moment du build )
@@ -146,6 +152,8 @@ Pour palier a ça il faut ajouté un argument au `fetch`
 ```
 
 Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` ! Ce qui peut être particulièrement utile quand on veut rendre des choses en temps réel.
+
+
 
 # GERER LES DB AVEC `PRISMA`
 
@@ -285,6 +293,8 @@ Et voilà :)
 
 ---
 
+
+
 # CONFIGURER `RADIX-UI`
 
 Pour commencer c’est quoi `radix-ui` ? 
@@ -363,6 +373,8 @@ Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la prem
 </Theme>
 ```
 
+
+
 # AJOUTER UN `MARKDOWN EDITOR`
 
 Pour ça on va utiliser [**React SimpleMDE](https://www.npmjs.com/package/react-simplemde-editor)
@@ -389,6 +401,8 @@ Maitenant vous pouvez utiliser la balise qui vous permettera d’avoir votre `é
 ![image.png](./readmeAssets/mdDemonstration.png)
 
 Pour plus de personalisation, [Lisez la doc !](https://www.npmjs.com/package/react-simplemde-editor)
+
+
 
 # UTILISER `REACT HOOK FORM`
 
@@ -488,6 +502,8 @@ Voici pourquoi vous devez utiliser Controller :
 3. Pour SimpleMDE, il transmet toutes les props nécessaires via l'objet "field" dans la fonction render
 
 Ce qui fait que grâce au Controller on est pas limité que par des élément `html` !
+
+
 
 # GÉRER LES ERREURS AVEC `zod` ET `react-hook-form`
 
