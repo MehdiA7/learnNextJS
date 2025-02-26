@@ -479,5 +479,12 @@ Le `{...field}` transmet automatiquement :
 - onBlur (pour marquer le champ comme "touché")
 - ref (référence au composant)
 - name (nom du champ)
+Le problème avec SimpleMDE est qu'il n'est pas un élément HTML standard - c'est un composant React complexe qui gère son propre état interne. Le `register` fonctionne en attachant directement des événements comme onChange, onBlur, etc. à des éléments DOM, mais SimpleMDE ne s'interface pas de cette façon.
+
+Voici pourquoi vous devez utiliser Controller :
+
+1. Le Controller agit comme un "adaptateur" entre react-hook-form et les composants tiers
+2. Il prend le contrôle du composant et synchronise son état avec react-hook-form
+3. Pour SimpleMDE, il transmet toutes les props nécessaires via l'objet "field" dans la fonction render
 
 Ce qui fait que grâce au Controller on est pas limité que par des élément `html` !
