@@ -12,8 +12,8 @@ import axios from "axios";
 // Router to change page after the post request
 import { useRouter } from "next/navigation";
 // Form error checker
-import { zodResolver } from '@hookform/resolvers/zod';
-import { date, z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { date, z } from "zod";
 // Schema for checker
 import createIssueSchema from "@/app/validationSchemas";
 // Components
@@ -25,31 +25,35 @@ type issueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
     const [error, setError] = useState("");
     const [isSubmit, setIsSubmit] = useState(false);
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<issueForm>({
+        resolver: zodResolver(createIssueSchema),
+    });
     const router = useRouter();
-    const { register, control, handleSubmit, formState: {errors} } = useForm<issueForm>({
-        resolver: zodResolver(createIssueSchema)
+
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setIsSubmit(true);
+            await axios.post("/api/issues", data);
+            router.push("/issues"); // redirect to issues page
+        } catch (error) {
+            setIsSubmit(false);
+            setError("We have problem...");
+        }
     });
 
     return (
         <div className="max-w-xl">
-            {error && <Callout.Root color="red" className="mb-5">
-                <Callout.Text>{error}</Callout.Text>
-            </Callout.Root>}
-            <form
-                className="max-w-xl space-y-3"
-                onSubmit={handleSubmit(async (data) => {
-                    try {
-                        setIsSubmit(true);
-                        await axios.post("/api/issues", data);
-                        router.push("/issues"); // redirect to issues page
-                    } catch (error) {
-                        setIsSubmit(false);
-                        setError(
-                            "We have problem..."
-                        );
-                    }
-                })}
-            >
+            {error && (
+                <Callout.Root color="red" className="mb-5">
+                    <Callout.Text>{error}</Callout.Text>
+                </Callout.Root>
+            )}
+            <form className="max-w-xl space-y-3" onSubmit={onSubmit}>
                 <TextField.Root
                     placeholder="title"
                     {...register("title")}
@@ -63,7 +67,9 @@ const NewIssuePage = () => {
                     )}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                <Button disabled={isSubmit}>Submit New Issue{!isSubmit && <Spinner/>}</Button>
+                <Button disabled={isSubmit}>
+                    Submit New Issue{isSubmit && <Spinner />}
+                </Button>
             </form>
         </div>
     );
