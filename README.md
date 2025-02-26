@@ -424,9 +424,11 @@ const FormComponent = () => {
 export default FormComponent;
 ```
 
-On crée donc register pour y stocker les valeurs que l’on veut `exporter sous forme d'objet` 
+On crée donc `register` pour y stocker les valeurs que l’on veut `exporter sous forme d'objet` 
 
-Maintenant voici un exemple avec plus de complexité car l’on fait appel a un component externe
+`register` permet uniquement de récupéré les valeurs d’une balise html, pour les components il faut utiliser le `Controller`
+
+Maintenant voici un exemple avec plus de complexité car l’on fait appel a un component personnalisé externe
 
 ```tsx
 "use client";
@@ -449,7 +451,7 @@ const NewIssuePage = () => {
             className="max-w-xl space-y-3"
             onSubmit={handleSubmit((data) => console.log(data))}
         >
-            <TextField.Root
+            <TextField.Root // élément html radix ui 
                 placeholder="title"
                 {...register("title")}
             ></TextField.Root>
@@ -457,7 +459,7 @@ const NewIssuePage = () => {
                 name="description"  // Le nom du champ dans votre formulaire
                 control={control}   // L'objet control de useForm
                 render={({ field }) => ( // Une fonction qui reçoit les props à passer au composant
-                    <SimpleMDE placeholder="Description" {...field} />
+                    <SimpleMDE placeholder="Description" {...field} /> // component personalisé 
                 )}
             />
             <Button>Submit New Issue</Button>
@@ -468,3 +470,14 @@ const NewIssuePage = () => {
 export default NewIssuePage;
 ```
 
+Que fait le `Controller` ? Il a va contrôler le component pour en extraire la valeurs qu’il retourne dans `field`  
+
+Le `{...field}` transmet automatiquement :
+
+- value (la valeur actuelle)
+- onChange (fonction pour mettre à jour la valeur)
+- onBlur (pour marquer le champ comme "touché")
+- ref (référence au composant)
+- name (nom du champ)
+
+Ce qui fait que grâce au Controller on est pas limité que par des élément `html` !
