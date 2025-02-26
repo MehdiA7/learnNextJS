@@ -91,7 +91,7 @@ Et voilà on a les 3 font qui sont disponible en css avec `var(--font-space-mono
     - `["latin"]` signifie que seuls les caractères latins seront chargés
     - Cela améliore les performances en réduisant la taille du fichier de police à télécharger
 
-
+---
 
 # ROUTING `/`
 
@@ -100,6 +100,8 @@ Alors c’est terriblement simple
 ![routeStructures](./readmeAssets/routeStructures.png)
 
 Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller su `users/new` et ainsi de suite… C’est le routing dans `next` !
+
+---
 
 # CSR OU SSR COMMENT SWITCH ? `use client`
 
@@ -137,7 +139,7 @@ const ProductCard = () => {
 export default ProductCard;
 ```
 
-
+---
 
 # IL SE PASSE QUOI QUAND ON `FETCH` ?
 
@@ -153,7 +155,7 @@ Pour palier a ça il faut ajouté un argument au `fetch`
 
 Ici on vois que j’ai mis `{ cache: 'no-store' }` comme argument et il sert a dire que il ne faut pas stocker des infos dans le cache mais les rerendre a chaque `rendu` ! Ce qui peut être particulièrement utile quand on veut rendre des choses en temps réel.
 
-
+---
 
 # GERER LES DB AVEC `PRISMA`
 
@@ -293,8 +295,6 @@ Et voilà :)
 
 ---
 
-
-
 # CONFIGURER `RADIX-UI`
 
 Pour commencer c’est quoi `radix-ui` ? 
@@ -372,8 +372,7 @@ Quand c’est fait il suffit de cliquer sur `Copy Theme` et de remplacer la prem
     <main className="p-5">{children}</main>
 </Theme>
 ```
-
-
+---
 
 # AJOUTER UN `MARKDOWN EDITOR`
 
@@ -402,7 +401,7 @@ Maitenant vous pouvez utiliser la balise qui vous permettera d’avoir votre `é
 
 Pour plus de personalisation, [Lisez la doc !](https://www.npmjs.com/package/react-simplemde-editor)
 
-
+---
 
 # UTILISER `REACT HOOK FORM`
 
@@ -503,7 +502,7 @@ Voici pourquoi vous devez utiliser Controller :
 
 Ce qui fait que grâce au Controller on est pas limité que par des élément `html` !
 
-
+---
 
 # GÉRER LES ERREURS AVEC `zod` ET `react-hook-form`
 
@@ -575,3 +574,34 @@ Ce snippet veut simplement dire que si il y’a une erreur sur `title` affiche m
 ( la balise `<Text>` viens de [Radix-Ui](https://www.radix-ui.com/) )
 
 Et voilà ! On a maintenant une gestion d’erreur en béton coté Client !
+
+---
+
+# COMMENT FAIRE UN BEAU `CHARGEMENT` FACILEMENT ?
+
+![image.png](./readmeAssets/submitButtonLoading.png)
+
+Voici une ressource précieuse pour trouver [facilement des components modifiable](https://tw-elements.com/docs/standard/components/spinners/)
+
+ Ici je vais prendre le basic
+
+```tsx
+<div
+  class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+  role="status">
+  <span
+    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+    >Loading...</span
+  >
+</div>
+```
+
+Il faut juste modifier les `class=` par `className` et vous aviez votre loading il peut être bien évidemment modifier via `tailwindcss`
+
+Maintenant on le met dans un composant et peut l’importer dans notre boutton et on va gérer l’affichage avec un `useState` 
+
+```tsx
+<Button disabled={isSubmit}>Submit New Issue{!isSubmit && <Spinner/>}</Button>
+```
+
+Comme vous pouvez le voir j’ai mis un disabled quand `isSubmit` est `true` comme ça l’utilisateur peux cliqué qu’une seule fois sur le boutton et évite l’envoi de 2 requêtes
