@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 // Form error checker
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+// Schema for checker
 import createIssueSchema from "@/app/validationSchemas";
 
 type issueForm = z.infer<typeof createIssueSchema>;

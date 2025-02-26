@@ -488,3 +488,74 @@ Voici pourquoi vous devez utiliser Controller :
 3. Pour SimpleMDE, il transmet toutes les props nécessaires via l'objet "field" dans la fonction render
 
 Ce qui fait que grâce au Controller on est pas limité que par des élément `html` !
+
+# GÉRER LES ERREURS AVEC `zod` ET `react-hook-form`
+
+La gestion d’erreur peut être parfois fastidieuse et complexe quand on a beaucoup de condition…
+
+Avec `zod` et `react-hook-form` on va pouvoir gérer ça proprement et en directe !
+
+Pour ça il faut les dépendances [zod](https://zod.dev/?id=installation) et [hookform resolvers](https://www.npmjs.com/package/@hookform/resolvers/v/1.3.7)
+
+```tsx
+npm install @hookform/resolvers
+npm install zod
+```
+
+Maintenant que c’est fait l’on peut crée un fichier a la racine de `app` pour mettre tout nos condition de gestion d’erreur perso je l’ai appelé `validationSchema.ts` et voici pour le formulaire que vous aviez pu voir avant ce que j’ai fait comme schéma et import 
+
+```tsx
+// Zod is a TypeScript-first schema declaration and validation library.
+import { z } from "zod";
+
+const createIssueSchema = z.object({
+    title: z.string().min(1, "Title is required !").max(255),
+    description: z.string().min(1, "Description is required !"),
+});
+
+export default createIssueSchema;
+```
+
+L’avantage de `zod` c’est que c’est assez simple et claire de comprendre la syntaxe a utiliser !
+
+Maintenant que le schémas est crée on va aller dans le fichier ou le `form` se trouve.
+
+Voici les imports a faire 
+
+```tsx
+// Form error checker
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+// Schema for checker
+import createIssueSchema from "@/app/validationSchemas";
+```
+
+Avec le schéma que l’on vient de faire on peut aussi `type` nos éléments pour éviter la répétition
+
+```tsx
+type issueForm = z.infer<typeof createIssueSchema>;
+```
+
+Après ça l’on va devoir ajouté des arguments a notre `useForm` 
+
+```tsx
+const { register, control, handleSubmit, formState: {errors} } = useForm<issueForm>({
+    resolver: zodResolver(createIssueSchema)
+});
+```
+
+On ajoute donc `fromState: {errors}` qui permet de simplement de récupéré les informations des forms pour les gérés faite un `ctrl+espace` quand vous ouvrez les `{}` vous allez voir les possibilité qu’il offre !
+
+Après ça on passe en argument a `useForm` un objet avec le `resolver` et le schéma que l’on veut utiliser.
+
+Quand tout cela est fait on peut l’écrire dans notre `jsx`
+
+```tsx
+{errors.title && <Text color="red" as="p">{errors.title.message}</Text>}
+```
+
+Ce snippet veut simplement dire que si il y’a une erreur sur `title` affiche moi le message d’erreur correspondant
+
+( la balise `<Text>` viens de [Radix-Ui](https://www.radix-ui.com/) )
+
+Et voilà ! On a maintenant une gestion d’erreur en béton coté Client !
