@@ -171,7 +171,7 @@ Un dossier `prisma` va être crée et dedans il y’aura `schema.prisma` égalem
 il faut modifier le `.env` avec les information de notre data bases, ici on fait un `issue Tracker` voici ce que j’ai entré dedans en utilisant `mysql` 
 
 ```bash
-DATABASE_URL="mysql://root:YourPassword$@localhost:3306/issue-tracker"
+DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/DATABASE"
 ```
 
 Dans le fichier `schema.prisma` il faut juste changer le `provider` de `dataressource` avec la db que l’on va utilisé ( par défaut c’est `postgresql` )
