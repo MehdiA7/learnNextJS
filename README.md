@@ -139,6 +139,10 @@ const ProductCard = () => {
 export default ProductCard;
 ```
 
+## COMMENT ON FAIT DES ROUTE PERSONNALISÉ ? `page/id`
+
+Pour ça il faut simplement crée un dosser avec des `[]` et ce que l’on attend dedans, par exemple si j’ai une page `issue` que je veux trouver une élément avec un `id` je crée un dossier `[id]` et a l’intérieur je suis la même structure que les autres route, juste avec un `props` `params` je vais pouvoir récupéré l’ ``id`` !
+
 ---
 
 # IL SE PASSE QUOI QUAND ON `FETCH` ?

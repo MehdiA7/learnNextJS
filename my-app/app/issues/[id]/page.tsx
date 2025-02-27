@@ -12,10 +12,16 @@ type Props = {
 
 const IssueDetailPage = async ({ params }: Props) => {
     //if(typeof params.id !== 'number') return notFound();
-    if(!parseInt(params.id)) return notFound();
+    //if(!parseInt(params?.id)) return notFound();
+
+    const id = parseInt(params.id);
+    
+    if (isNaN(id)) {
+        notFound();
+    }
 
     const issue = await prisma.issue.findUnique({
-        where: { id: parseInt(params.id) },
+        where: { id: id },
     });
 
     if (!issue) return notFound();
