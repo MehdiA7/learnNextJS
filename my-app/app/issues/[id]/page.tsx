@@ -1,7 +1,9 @@
 import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import { PrismaClient } from "@prisma/client";
-import { Box, Card, Text } from "@radix-ui/themes";
+import { Box, Card, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+
 import React from "react";
 
 const prisma = new PrismaClient();
@@ -11,32 +13,38 @@ type Props = {
 };
 
 const IssueDetailPage = async ({ params }: Props) => {
-    //if(typeof params.id !== 'number') return notFound();
-    //if(!parseInt(params?.id)) return notFound();
+    const { id } = await params;
 
-    const id = parseInt(params.id);
-    
-    if (isNaN(id)) {
+    if (isNaN(parseInt(id))) {
         notFound();
     }
 
     const issue = await prisma.issue.findUnique({
-        where: { id: id },
+        where: { id: parseInt(id) },
     });
 
     if (!issue) return notFound();
 
     return (
-        <div>
+        <>
             <Box>
                 <Card>
-                    <Text as="p" size={"6"}>{issue.title}</Text>
-                    <IssueStatusBadge status={issue.status}/>
-                    <Text as="p" size={"2"}>{issue.createdAt.toDateString()}</Text>
-                    <Text as="p">{issue.description}</Text>
+                    <Heading size={"6"} className="mb-2">
+                        {issue.title}
+                    </Heading>
+                    <div className="flex space-x-4">
+                        <IssueStatusBadge status={issue.status} />
+                        <Text as="p" size={"2"}>
+                            {issue.createdAt.toDateString()}
+                        </Text>
+                    </div>
+                    <hr className="mt-2 mb-4" />
+                    <div className="prose ">
+                        <ReactMarkdown>{issue.description}</ReactMarkdown>
+                    </div>
                 </Card>
             </Box>
-        </div>
+        </>
     );
 };
 
