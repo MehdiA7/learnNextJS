@@ -1,10 +1,10 @@
-"use client";
+'use client';
 import React, { useState } from "react";
 // Radix ui theme
-import { Button, TextField, Callout, Text, Heading } from "@radix-ui/themes";
+import { Button, TextField, Callout, Heading } from "@radix-ui/themes";
 
 // Markdown editor
-import SimpleMDE from "react-simplemde-editor";
+import SimpleMDE from 'react-simplemde-editor';
 import "easymde/dist/easymde.min.css";
 
 // React use form for simple form request
@@ -15,6 +15,8 @@ import axios from "axios";
 
 // Router to change page after the post request
 import { useRouter } from "next/navigation";
+// its for make component csr in ssr component
+// import dynamic from "next/dynamic";
 
 // Form error checker
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +28,11 @@ import createIssueSchema from "@/app/validationSchemas";
 // Components
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+
+// see comment at 18
+// const SimpleMDE = dynamic(() => import('react-simplemde-editor'), 
+// { ssr: false }
+// );
 
 type issueForm = z.infer<typeof createIssueSchema>;
 
