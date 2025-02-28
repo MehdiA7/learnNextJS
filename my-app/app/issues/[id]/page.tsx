@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { Box, Card, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import delay from "delay";
 
 import React from "react";
 
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const IssueDetailPage = async ({ params }: Props) => {
+    await delay(2000);
     const { id } = await params;
 
     if (isNaN(parseInt(id))) {
