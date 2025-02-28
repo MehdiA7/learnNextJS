@@ -4,12 +4,8 @@ import { PrismaClient } from "@prisma/client";
 import createIssueSchema from "@/app/validationSchemas";
 const prisma = new PrismaClient();
 
-// create a post function
-export async function POST(request: NextRequest) {
-    // get the body
+export async function UPDATE(request: NextRequest) {
     const body = await request.json();
-    // send the information to the database prisma.table.action({})
-    // Validate request body
     const validation = createIssueSchema.safeParse(body);
 
     if (!validation.success) {
@@ -19,9 +15,14 @@ export async function POST(request: NextRequest) {
         );
     };
 
-    const newIssue = await prisma.issue.create({
-        data: { title: body.title, description: body.description },
+    const updateIssue = await prisma.issue.update({
+        where: {
+            id: body[0].id,
+        },
+        data: {
+            title: body[1].title,
+            description: body[1].description,
+        },
     });
-    // send the response and the status
-    return NextResponse.json(newIssue, { status: 201 });
+    return NextResponse.json(updateIssue, { status: 201 });
 };
