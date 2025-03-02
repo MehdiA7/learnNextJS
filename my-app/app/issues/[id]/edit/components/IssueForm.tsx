@@ -67,11 +67,15 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
         } else {
             try {
                 setIsSubmit(true);
-                await fetch("/api/issues", {
+                await fetch("/api/issues/edit", {
                     method: "PATCH",
                     body: JSON.stringify([issue.id, data]),
                 });
-            } catch (error) {}
+                router.push("/issues"); // redirect to issues page
+            } catch (error) {
+                setIsSubmit(false);
+                setError("We have problem...");
+            }
         }
     });
 

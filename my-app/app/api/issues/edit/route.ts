@@ -4,10 +4,10 @@ import { PrismaClient } from "@prisma/client";
 import createIssueSchema from "@/app/validationSchemas";
 const prisma = new PrismaClient();
 
-export async function UPDATE(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
     const body = await request.json();
-    const validation = createIssueSchema.safeParse(body);
-
+    const validation = createIssueSchema.safeParse(body[1]);
+    
     if (!validation.success) {
         return NextResponse.json(
             { error: validation.error.errors },
@@ -15,9 +15,10 @@ export async function UPDATE(request: NextRequest) {
         );
     };
 
+
     const updateIssue = await prisma.issue.update({
         where: {
-            id: body[0].id,
+            id: body[0],
         },
         data: {
             title: body[1].title,
