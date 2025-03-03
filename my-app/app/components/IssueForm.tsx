@@ -60,6 +60,7 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
             } catch (error) {
                 setIsSubmit(false);
                 setError("We have problem...");
+                console.log(error);
             }
         } else {
             try {
@@ -72,6 +73,7 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
             } catch (error) {
                 setIsSubmit(false);
                 setError("We have problem...");
+                console.log(error);
             }
         }
     });

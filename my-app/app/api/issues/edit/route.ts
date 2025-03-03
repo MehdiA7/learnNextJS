@@ -7,14 +7,13 @@ const prisma = new PrismaClient();
 export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const validation = createIssueSchema.safeParse(body[1]);
-    
+
     if (!validation.success) {
         return NextResponse.json(
             { error: validation.error.errors },
             { status: 400 }
         );
-    };
-
+    }
 
     const updateIssue = await prisma.issue.update({
         where: {
@@ -26,4 +25,4 @@ export async function PATCH(request: NextRequest) {
         },
     });
     return NextResponse.json(updateIssue, { status: 201 });
-};
+}
