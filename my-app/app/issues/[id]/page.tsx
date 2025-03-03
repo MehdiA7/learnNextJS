@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 import EditButton from "./EditButton";
 import ShowIssueDetails from "./ShowIssueDetails";
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "@/prisma/client";
 
 type Props = {
     params: { id: string };
