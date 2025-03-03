@@ -10,9 +10,6 @@ import "easymde/dist/easymde.min.css";
 // React use form for simple form request
 import { useForm, Controller } from "react-hook-form";
 
-// Axios for make some better request
-import axios from "axios";
-
 // Router to change page after the post request
 import { useRouter } from "next/navigation";
 // its for make component csr in ssr component
@@ -98,18 +95,18 @@ const IssueForm = ({ issue }: { issue?: issue }) => {
                 <ErrorMessage>{errors.title?.message}</ErrorMessage>
                 <Controller
                     name="description"
+                    defaultValue={issue?.description}
                     control={control}
                     render={({ field }) => (
                         <SimpleMDE
                             placeholder="Description"
-                            defaultValue={issue?.description}
                             {...field}
                         />
                     )}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
                 <Button disabled={isSubmit}>
-                    Submit New Issue{isSubmit && <Spinner />}
+                    {issue ? "Edit the issue" : "Submit New Issue"}{isSubmit && <Spinner />}
                 </Button>
             </form>
         </div>

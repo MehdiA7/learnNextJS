@@ -1,5 +1,5 @@
 import React from "react";
-import IssueForm from "./components/IssueForm";
+import IssueForm from "../../../components/IssueForm";
 import { issue, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

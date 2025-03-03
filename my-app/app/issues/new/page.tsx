@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import IssueForm from "../[id]/edit/components/IssueForm";
+import IssueForm from "../../components/IssueForm";
 
 const NewIssuePage = () => {
     return <IssueForm />;
