@@ -256,6 +256,8 @@ Pour ça dans `app` on crée un dossier `api/issues` ça va contenir le fichier 
 
 On commence par les imports que l’on va avoir besoin
 
+Ici on va utiliser `Zod` et c'est simplement un dépendance qui va très bien avec `Prisma` car elle permet simplement d'attrapé les erreurs avant d'envoyer les instructions a la `db`
+
 ```tsx
 npm install zod
 ```
@@ -279,7 +281,7 @@ const createIssueSchema = z.object({
 });
 ```
 
-Et puis on construit notre requête
+Et puis on construit notre requête `POST`
 
 ```tsx
 // create a post function
@@ -298,6 +300,33 @@ export async function POST(request: NextRequest) {
     // send the response and status
     return NextResponse.json(newIssue, { status: 201 });
 }
+```
+
+Par contre si vous voulez faire un `GET` c'est très simple a faire dans une page coté `server` !
+
+les imports a faire 
+```ts
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+```
+A mettre dans son component
+```ts
+const issues = await prisma.issue.findMany();
+```
+Ici je stock tout le contenu de la table `issue` dans une constante `issues`
+
+`findMany`permet de prendre plusieurs élément dans la db
+
+`findUnique` permet de prendre qu'un seul élément de la base de donnée 
+
+```ts
+    const issue = await prisma.issue.findUnique({
+        where: { id: parseInt(id) },
+    });
+    
+    const issue = await prisma.issue.findMany({
+        where: { id: parseInt(id) },
+    });
 ```
 
 Et voilà :) 
