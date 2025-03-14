@@ -99,7 +99,11 @@ Alors c’est terriblement simple
 
 ![routeStructures](./readmeAssets/routeStructures.png)
 
-Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller su `users/new` et ainsi de suite… C’est le routing dans `next` !
+Voici le dossier `app` dedans on peut voir que il y’a plusieurs pages mais elle ne sont pas au même endroit, la page a la racine de `app` est le `/` et puis l’on vois le dossier `users` qui contient lui aussi une page, ce sera donc `/users` et si l’on va dans le dossier `new` pour affiché la page il faudra aller sur `users/new` et ainsi de suite… C’est le routing dans `next` !
+
+## COMMENT ON FAIT DES ROUTE PERSONNALISÉ ? `page/id`
+
+Pour ça il faut simplement crée un dosser avec des `[]` et ce que l’on attend dedans, par exemple si j’ai une page `issue` que je veux trouver une élément avec un `id` je crée un dossier `[id]` et a l’intérieur je suis la même structure que les autres route, juste avec un `props` `params` je vais pouvoir récupéré l’ ``id`` !
 
 ---
 
@@ -138,10 +142,10 @@ const ProductCard = () => {
 
 export default ProductCard;
 ```
+### Comment savoir si notre page est rendu coté client ?
 
-## COMMENT ON FAIT DES ROUTE PERSONNALISÉ ? `page/id`
-
-Pour ça il faut simplement crée un dosser avec des `[]` et ce que l’on attend dedans, par exemple si j’ai une page `issue` que je veux trouver une élément avec un `id` je crée un dossier `[id]` et a l’intérieur je suis la même structure que les autres route, juste avec un `props` `params` je vais pouvoir récupéré l’ ``id`` !
+C'est assez simple, si vous faite appel a des hooks `React` il doit être rendu de coté `client` par exemple le `useState();` 
+La manière la plus simple de le voir c'est de mettre son component coté client quans votre site crash avec l'erreur en question.
 
 ---
 
@@ -169,6 +173,7 @@ Pour installer `prisma` il faut
 npm install prisma
 npx prisma init
 ```
+Également sur `VS CODE` vous pouvez installer l'extension `Prisma` pour avoir la coloration syntaxique 
 
 Un dossier `prisma` va être crée et dedans il y’aura `schema.prisma` également il y’aura un `.env` 
 
@@ -194,7 +199,7 @@ Dans `schema.prisma`
 ```java
 model issue {
   id Int @id @default(autoincrement())
-	title String @db.VarChar(255)
+	title String @db.Char(255)
 	description String @db.Text
 	status Status @default(OPEN)
 	createdAt DateTime @default(now())

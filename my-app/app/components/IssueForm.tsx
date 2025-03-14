@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 // its for make component csr in ssr component
 // import dynamic from "next/dynamic";
-
+    
 // Form error checker
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
